@@ -13,17 +13,41 @@ namespace CustomList
         private int capacity;
         private int count;
 
+            //Create public properties for capacity and count to get values
+        public int Capacity { get =>  capacity; set => capacity = value; }
+        public int Count { get => count; set => count = value; }
+            //Create a public indexer for items 
+        public T[] Items { get => items; set => items = value; }
+
+
         //Constructor
         public CustomList()
         {
             capacity = 4;
-            //count =
-            //items = 
+            count = 0;
+            items = new T[capacity]; //items array of equal number of places to the capacity
         }
 
         //Member Methods (CAN DO)
         public void Add(T item)
         {
+            //If the capacity reaches max then double capacity. 
+            if (capacity == count)
+            {
+                capacity *= 2;
+                //Create new items array with increased capacity
+                T[] newItems = new T[capacity];
+                //Loop will transfer items from original array to the new array.
+                for (int i = 0; i < count; i++)
+                {
+                    newItems[i] = items[i];
+                }
+                //Assign the reference of the old array with the new larger array. 
+                items = newItems;
+            }
+            //Now add the new item to the new larger array. 
+            items[count++] = item;
+
             //'item' parameter should be added to internal 'items' array
             //if items array is at capacity, double capacity and create new array
             //transfer all items to new array
