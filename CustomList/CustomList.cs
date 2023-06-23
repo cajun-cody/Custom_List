@@ -14,11 +14,23 @@ namespace CustomList
         private int count;
 
             //Create public properties for capacity and count to get values
-        public int Capacity { get =>  capacity; set => capacity = value; }
-        public int Count { get => count; set => count = value; }
+        public int Capacity { get =>  capacity; }
+        public int Count { get => count; }
             //Create a public indexer for items 
         public T[] Items { get => items; set => items = value; }
-
+            //Need a custom indexer to prevent a user from accessing an out of bounds index.
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Count)
+                    throw new IndexOutOfRangeException();
+                else
+                {
+                    return items[index];
+                }
+            }
+        }
 
         //Constructor
         public CustomList()
@@ -46,20 +58,53 @@ namespace CustomList
                 items = newItems;
             }
             //Now add the new item to the new larger array. 
+            //Check to make sure that the count is less than the capacity, then add. If not then throw exception.
             items[count++] = item;
 
             //'item' parameter should be added to internal 'items' array
             //if items array is at capacity, double capacity and create new array
             //transfer all items to new array
         }
+        //Method to shift index value down when removing an item.
+        public T[] ShiftIndex(int indexedItem)
+        {
+            T[] removedItemsArray = new T[capacity];
+            //Loop to 
+            for (int i = 0; i < count - 1; i++)
+            {
+                if (i < indexedItem)
+                {
+                    removedItemsArray[i] = items[i + 1];
+                }
+                else
+                {
+                    removedItemsArray[i] = items[i + 1];
+                }
+            }
+            return removedItemsArray;
+        }
 
         public bool Remove(T item)
         {
+            bool itemExists = false;
+            int index = Array.IndexOf(items, item);
+            if (index >= 0)
+            {
+                itemExists = true;
+                items = ShiftIndex(index);
+                count--;
+
+            }
             //If 'item' exists in the 'items' array, remove its first instance
             //Any items coming after the removed item should be shifted down so there is no empty index.
             //If 'item' was removed, return true. If no item was removed, return false.
-            return false;
+            return itemExists;
         }
+
+         
+
+
+
 
         public override string ToString()
         {

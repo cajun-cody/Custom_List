@@ -71,7 +71,28 @@ namespace CustomListTests
             avengers.Add("Captain America");
             //Assert
             Assert.AreEqual("Captain America", avengers.Items[1]);
-
         }
+
+        //[TestMethod]
+        //public void Add_ItemIndexOutOfBounds_NoItemExistsAtIndexThree()
+        //{
+        //    //Arrange
+        //    CustomList<string> avengers = new CustomList<string>();
+
+        //    //Act
+        //    avengers.Add("Iron Man");
+        //    avengers.Add("Captain America");
+        //    //Assert
+        //    try
+        //    {
+        //        string newAvenger = avengers.Items[3];
+        //        Assert.Fail("Expected IndexOutOfRangeException was not thrown.");
+        //    }
+        //    catch (IndexOutOfRangeException ex)
+        //    {
+        //        Assert.IsTrue(ex.Message.Contains("Index out of Range"));
+        //    }
+            
+        //}
     }
 }
