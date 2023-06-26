@@ -18,7 +18,7 @@ namespace CustomList
         public int Count { get => count; }
             //Create a public indexer for items 
         public T[] Items { get => items; set => items = value; }
-            //Need a custom indexer to prevent a user from accessing an out of bounds index.
+            //Need a custom indexer to prevent a user from accessing an out of bounds index. Used for the remove method.
         public T this[int index]
         {
             get
@@ -28,6 +28,17 @@ namespace CustomList
                 else
                 {
                     return items[index];
+                }
+            }
+            set
+            {
+                if (index < 0 || index >= count)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                else
+                {
+                    items[index] = value;
                 }
             }
         }
@@ -74,7 +85,7 @@ namespace CustomList
             {
                 if (i < indexedItem)
                 {
-                    removedItemsArray[i] = items[i + 1];
+                    removedItemsArray[i] = items[i];
                 }
                 else
                 {
@@ -101,15 +112,33 @@ namespace CustomList
             return itemExists;
         }
 
-         
-
-
-
 
         public override string ToString()
         {
             //returns a single string that contains all items from array
-            return "";
+            //Need a value to hold the items from an array into a string. 
+            string newString = "";
+            int itemCount = 0;
+            //Need a loop to go through the list and append it to the newString variable.
+            foreach (T item in items)
+            {
+                //Correct the return for capacity. If Count is lest than item count go into conditionals.This prevents an item being added to a list with less items than its capacity.   
+                itemCount++;
+                if (itemCount <= count)
+                {
+                    //Check to see what item datatype is. Ex String or int. Each if statement checks datatype.
+                    //<datatype>Item variable can be passed in for composite formating.
+                    if (item is string stringItem)
+                    {
+                        newString += item;
+                    }
+                    else if (item is int intItem)
+                    {
+                        newString += String.Format("{0}", intItem);
+                    }
+                }
+            }
+            return newString;
         }
 
         public static CustomList<T> operator +(CustomList<T> firstList, CustomList<T> secondList)
