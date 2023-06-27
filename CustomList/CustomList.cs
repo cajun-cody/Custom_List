@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CustomList
 {
     public class CustomList<T>
@@ -48,7 +49,7 @@ namespace CustomList
         {
             capacity = 4;
             count = 0;
-            items = new T[capacity]; //items array of equal number of places to the capacity
+            items = new T[capacity]; //Items array of equal number of places to the capacity
         }
 
         //Member Methods (CAN DO)
@@ -160,9 +161,43 @@ namespace CustomList
 
         public static CustomList<T> operator -(CustomList<T> firstList, CustomList<T> secondList)
         {
+            //Create a new list to hold items for to return after minus operation of firstList minus secondList.
+            CustomList<T> minusList = new CustomList<T>();
+            //Need to compare items from firstList and secondList using for loop.
+            for (int i = 0; i < firstList.Count; i++)
+            {
+                //Variable to hold the value of each iteration.
+                T item = firstList[i];
+                //If item from the first list is duplicated in the secondList, minus operation should remove a single instance of the duplicated item
+                //in the firstList as well as remove all items from the secondList.
+                if (!secondList.Contains(item))
+                {
+                    //If item doesn't exist in secondList, add it to minusList.
+                    minusList.Add(item);
+                }
+                else
+                {
+                    //If item is duplicated in the secondList, remove the instance from the firstList.
+                    firstList.Remove(item);
+                }
+            }
+
             //returns a single CustomList<T> with all items from firstList, EXCEPT any items that also appear in secondList
-            return null;
+            return minusList;
         }
+
+        public bool Contains(T item)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (items[i].Equals(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
 
     }
