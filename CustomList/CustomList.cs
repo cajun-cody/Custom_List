@@ -19,11 +19,12 @@ namespace CustomList
         public int Count { get => count; }
             //Create a public indexer for items 
         public T[] Items { get => items; set => items = value; }
-            //Need a custom indexer to prevent a user from accessing an out of bounds index. Used for the remove method.
+            //Need a custom indexer to prevent a user from accessing an out of bounds index. Used for the remove method and overload methods.
         public T this[int index]
         {
             get
             {
+                //Conditional checks if there are any indexes available or if the index provided is greater than the actual count.
                 if (index < 0 || index >= Count)
                     throw new IndexOutOfRangeException();
                 else
@@ -81,15 +82,18 @@ namespace CustomList
         public T[] ShiftIndex(int indexedItem)
         {
             T[] removedItemsArray = new T[capacity];
-            //Loop to 
+            //Loop through the array to shift the elements. 
             for (int i = 0; i < count - 1; i++)
             {
+                //If the current index is before the indexed item then copy the arrays items in their correct index.
                 if (i < indexedItem)
                 {
+                    //Both arrays are equal.
                     removedItemsArray[i] = items[i];
                 }
                 else
                 {
+                    //Else if index is after the indexted item shift the index by skipping the item in the original array.
                     removedItemsArray[i] = items[i + 1];
                 }
             }
@@ -98,17 +102,19 @@ namespace CustomList
 
         public bool Remove(T item)
         {
+            //Set variable to false and have method check if item exists. If it does then remove the item.
             bool itemExists = false;
+            //Need to find the index of an item in a list/array.
             int index = Array.IndexOf(items, item);
             if (index >= 0)
             {
                 itemExists = true;
+                //Any items coming after the removed item should be shifted down so there is no empty index.
                 items = ShiftIndex(index);
                 count--;
-
             }
             //If 'item' exists in the 'items' array, remove its first instance
-            //Any items coming after the removed item should be shifted down so there is no empty index.
+            
             //If 'item' was removed, return true. If no item was removed, return false.
             return itemExists;
         }
@@ -186,8 +192,10 @@ namespace CustomList
             return minusList;
         }
 
+        //Need to create a method for contains since CustomList<T> does not have a definition for .Contains.
         public bool Contains(T item)
         {
+            //Loop through list for items and checks if the item equals an item in items list. If so returns true. 
             for (int i = 0; i < count; i++)
             {
                 if (items[i].Equals(item))
